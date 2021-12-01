@@ -14,17 +14,15 @@ public class DayOne {
 
     public void process(){
         List<Integer> lines = resultList();
-        int temp =0;
         int count =0;
-        for(int i=0; i < lines.size(); i++) {
+        for(int i=1; i < lines.size(); i++) {
             if (i + 2 > lines.size() - 1) break;
 
-            if (lines.get(i)+lines.get(i+1)+lines.get(i+2) > temp) {
+            if(lines.get(i-1) < lines.get(i+2)) {
                 count++;
             }
-            temp = lines.get(i)+lines.get(i+1)+lines.get(i+2);
         }
-        result = String.valueOf(count-1);
+        result = String.valueOf(count);
     }
 
     public String getResult() {
