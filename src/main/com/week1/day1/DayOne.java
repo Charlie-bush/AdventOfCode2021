@@ -1,9 +1,10 @@
 package main.com.week1.day1;
 
+import main.com.AdventUtils.AdventDay;
 import main.com.AdventUtils.Reader;
 import java.util.List;
 
-public class DayOne {
+public class DayOne implements AdventDay {
 
     private String result;
 
@@ -11,7 +12,7 @@ public class DayOne {
         Reader reader = new Reader("day1.txt");
         return reader.getIntegerList();
     }
-
+    @Override
     public void process(){
         List<Integer> lines = resultList();
         int count =0;
@@ -25,6 +26,7 @@ public class DayOne {
         result = String.valueOf(count);
     }
 
+    @Override
     public String getResult() {
         return result;
     }
