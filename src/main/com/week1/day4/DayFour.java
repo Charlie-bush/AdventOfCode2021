@@ -7,7 +7,7 @@ public class DayFour implements AdventDay {
 
     @Override
     public void process() {
-
+        //Blank things here
     }
 
     @Override
