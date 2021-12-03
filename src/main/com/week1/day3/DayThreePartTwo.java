@@ -40,7 +40,6 @@ public class DayThreePartTwo implements AdventDay {
             digitIndex++;
             count=0;
         }
-        count=0;
         digitIndex=0;
         List<String> resultListEpsilon = resultList();
         while(resultListEpsilon.size()>1) {
