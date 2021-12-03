@@ -21,33 +21,22 @@ public class DayThreePartTwo implements AdventDay {
         List<String> resultListGamma = resultList();
         int digitIndex =0, count =0;
         while(resultListGamma.size()>1) {
+            List<String> toRemove = new ArrayList<>();
             for(String line: resultListGamma) {
                 char[] binaryArray = line.toCharArray();
                 if(binaryArray[digitIndex]=='1') {
+                    toRemove.add(line);
                     count++;
                 }
             }
-
             if (count >= Math.ceil((float)resultListGamma.size()/2)) {
-                List<String> toRemove = new ArrayList<>();
-                for(String line: resultListGamma) {
-                    char[] binaryArray = line.toCharArray();
-                    if(binaryArray[digitIndex]=='0') {
-                        toRemove.add(line);
-                    }
-                }
-                resultListGamma.removeAll(toRemove);
+                resultListGamma.clear();
+                resultListGamma.addAll(toRemove);
+
             } else {
-                List<String> toRemove = new ArrayList<>();
-                for(String line: resultListGamma) {
-                    char[] binaryArray = line.toCharArray();
-                    if(binaryArray[digitIndex]=='1') {
-                        toRemove.add(line);
-                    }
-                }
                 resultListGamma.removeAll(toRemove);
-                toRemove.clear();
             }
+            toRemove.clear();
             digitIndex++;
             count=0;
         }
@@ -55,36 +44,24 @@ public class DayThreePartTwo implements AdventDay {
         digitIndex=0;
         List<String> resultListEpsilon = resultList();
         while(resultListEpsilon.size()>1) {
+            List<String> toRemove = new ArrayList<>();
             for(String line: resultListEpsilon) {
                 char[] binaryArray = line.toCharArray();
                 if(binaryArray[digitIndex]=='1') {
+                    toRemove.add(line);
                     count++;
                 }
             }
             if (count >= Math.ceil((float)resultListEpsilon.size()/2)) {
-                List<String> toRemove = new ArrayList<>();
-                for(String line: resultListEpsilon) {
-                    char[] binaryArray = line.toCharArray();
-                    if(binaryArray[digitIndex]=='1') {
-                        toRemove.add(line);
-                    }
-                }
                 resultListEpsilon.removeAll(toRemove);
             } else {
-                List<String> toRemove = new ArrayList<>();
-                for(String line: resultListEpsilon) {
-                    char[] binaryArray = line.toCharArray();
-                    if(binaryArray[digitIndex]=='0') {
-                        toRemove.add(line);
-                    }
-                }
-                resultListEpsilon.removeAll(toRemove);
+                resultListEpsilon.clear();
+                resultListEpsilon.addAll(toRemove);
             }
             digitIndex++;
             count=0;
         }
         String gamma = resultListGamma.get(0), epsilon = resultListEpsilon.get(0);
-
         result = String.valueOf(Integer.parseInt(gamma,2) * Integer.parseInt(epsilon,2));
     }
 
