@@ -3,11 +3,12 @@ package main.com.week1.day4;
 import main.com.AdventUtils.AdventDay;
 import main.com.AdventUtils.Reader;
 
-import java.lang.reflect.Array;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.IntStream;
 
-public class DayFour implements AdventDay {
+public class DayFourPartTwo implements AdventDay {
     private String result;
 
     private List<String> resultList(){
@@ -25,7 +26,7 @@ public class DayFour implements AdventDay {
         boolean noBingo = true;
         int winnerOfBingo = 0, digitIndex =0, winningNumber =0;
         while (noBingo) {
-            for (int i=0; i < mapOfTables.size(); i++){
+            for (int i=0; i < mapOfTables.size(); i++) {
                 int[][] matrix = mapOfTables.get(i);
                 int[][] binaryMatrix = binaryMap.getOrDefault(i, new int[5][5]);
                 for (int j =0; j< 5; j++){
@@ -40,11 +41,10 @@ public class DayFour implements AdventDay {
                     winnerOfBingo = i;
                     winningNumber = Integer.parseInt(bingoNumbers[digitIndex]);
                 }
-                noBingo = !isBingo(binaryMatrix);
+                noBingo = !areWeDone(binaryMap);
                 if (noBingo==false){
                     break;
                 }
-
             }
             if (noBingo==false){
                 break;
@@ -63,12 +63,24 @@ public class DayFour implements AdventDay {
 
     }
 
+    public boolean areWeDone(HashMap<Integer, int[][]> binaryMap){
+        boolean answer = false;
+        for(int i =0; i< binaryMap.size(); i++){
+            if (isBingo(binaryMap.get(i))) {
+                answer =true;
+            } else {
+                return false;
+            }
+        }
+        return answer;
+    }
+
     public boolean isBingo(int[][] matrix) {
         for (int i =0; i<5; i++){
             int[] vert = matrix[i];
             if (IntStream.of(vert).sum() ==5) {
                 return true;
-            } else if(matrix[i][0]+matrix[i][1]+matrix[i][2]+matrix[i][3]+matrix[i][4]==5){
+            } else if(matrix[0][i]+matrix[1][i]+matrix[2][i]+matrix[3][i]+matrix[4][i]==5){
                 return true;
             }
         }
