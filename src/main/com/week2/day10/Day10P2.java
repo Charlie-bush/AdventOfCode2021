@@ -1,14 +1,11 @@
-package main.com.week2;
+package main.com.week2.day10;
 
 import main.com.AdventUtils.AdventDay;
 import main.com.AdventUtils.Reader;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
-import java.util.Stack;
+import java.util.*;
 
-public class Day10 implements AdventDay {
+public class Day10P2 implements AdventDay {
     private String result;
 
     private List<String> resultList(){
@@ -19,38 +16,43 @@ public class Day10 implements AdventDay {
     @Override
     public void process() {
         List<String> resultList = resultList();
-        List<Character> firstIllegalCharacters = new ArrayList<>();
+        List<Long> totalList = new ArrayList<>();
         for (String line: resultList) {
             Stack<Character> currentOpenBrackets = new Stack<>();
             char[] letters = line.toCharArray();
-            boolean finishedOnLine = false;
-            int index = 0;
+            boolean corruptedLine = false;
             for (char letter: letters) {
                 switch (letter) {
                     case '(', '[', '{', '<' -> currentOpenBrackets.push(letter);
                     case ')', ']', '}', '>' -> {
                         if (currentOpenBrackets.pop()!=reverseOfBracket(letter)) {
-                            firstIllegalCharacters.add(letter);
-
-                            finishedOnLine =true;
+                            corruptedLine =true;
                         }
                     }
                 }
-                index++;
-                if (finishedOnLine) break;
+                if (corruptedLine) break;
+            }
+            if (!corruptedLine){
+                totalList.add(scoreForLine(currentOpenBrackets));
             }
         }
-        long total = 0;
-        for (char illegalChars: firstIllegalCharacters){
-            switch (illegalChars) {
-                case ')' -> total+= 3;
-                case ']' -> total+= 57;
-                case '}' -> total+= 1197;
-                case '>' -> total+= 25137;
-            }
-        }
-        result = String.valueOf(total);
+        Collections.sort(totalList);
+        int midPoint = (totalList.size()+1)/2;
+        result = String.valueOf(totalList.get(midPoint-1));
 
+    }
+
+    private long scoreForLine(Stack<Character> currentOpenBrackets) {
+        long currentScore =0;
+        while(!currentOpenBrackets.isEmpty()) {
+            switch (currentOpenBrackets.pop()) {
+                case '(' -> currentScore=(currentScore*5) +1;
+                case '[' -> currentScore=(currentScore*5) +2;
+                case '{' -> currentScore=(currentScore*5) +3;
+                case '<' -> currentScore=(currentScore*5) +4;
+            }
+        }
+        return currentScore;
     }
 
     private char reverseOfBracket(char closeBracket) {

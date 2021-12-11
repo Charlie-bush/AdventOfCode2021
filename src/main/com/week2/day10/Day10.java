@@ -1,11 +1,14 @@
-package main.com.week2;
+package main.com.week2.day10;
 
 import main.com.AdventUtils.AdventDay;
 import main.com.AdventUtils.Reader;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Stack;
 
-public class Day10P2 implements AdventDay {
+public class Day10 implements AdventDay {
     private String result;
 
     private List<String> resultList(){
@@ -16,43 +19,38 @@ public class Day10P2 implements AdventDay {
     @Override
     public void process() {
         List<String> resultList = resultList();
-        List<Long> totalList = new ArrayList<>();
+        List<Character> firstIllegalCharacters = new ArrayList<>();
         for (String line: resultList) {
             Stack<Character> currentOpenBrackets = new Stack<>();
             char[] letters = line.toCharArray();
-            boolean corruptedLine = false;
+            boolean finishedOnLine = false;
+            int index = 0;
             for (char letter: letters) {
                 switch (letter) {
                     case '(', '[', '{', '<' -> currentOpenBrackets.push(letter);
                     case ')', ']', '}', '>' -> {
                         if (currentOpenBrackets.pop()!=reverseOfBracket(letter)) {
-                            corruptedLine =true;
+                            firstIllegalCharacters.add(letter);
+
+                            finishedOnLine =true;
                         }
                     }
                 }
-                if (corruptedLine) break;
-            }
-            if (!corruptedLine){
-                totalList.add(scoreForLine(currentOpenBrackets));
+                index++;
+                if (finishedOnLine) break;
             }
         }
-        Collections.sort(totalList);
-        int midPoint = (totalList.size()+1)/2;
-        result = String.valueOf(totalList.get(midPoint-1));
-
-    }
-
-    private long scoreForLine(Stack<Character> currentOpenBrackets) {
-        long currentScore =0;
-        while(!currentOpenBrackets.isEmpty()) {
-            switch (currentOpenBrackets.pop()) {
-                case '(' -> currentScore=(currentScore*5) +1;
-                case '[' -> currentScore=(currentScore*5) +2;
-                case '{' -> currentScore=(currentScore*5) +3;
-                case '<' -> currentScore=(currentScore*5) +4;
+        long total = 0;
+        for (char illegalChars: firstIllegalCharacters){
+            switch (illegalChars) {
+                case ')' -> total+= 3;
+                case ']' -> total+= 57;
+                case '}' -> total+= 1197;
+                case '>' -> total+= 25137;
             }
         }
-        return currentScore;
+        result = String.valueOf(total);
+
     }
 
     private char reverseOfBracket(char closeBracket) {
